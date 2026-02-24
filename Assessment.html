@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #container{
+            display: flex;
+            background-color: gray;
+            padding: 10px;
+        }
+        #products{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            width: 100%;
+        }
+          #products div {
+            width: 150px;
+            text-align: center;
+            margin: 5px;
+            padding: 5px;
+            justify-content: space-evenly;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 3px 3px 3px 3px black;
+        }
+
+        #products div img {
+            width: 100%;
+        }
+        #pop{
+            border: 1px solid black;
+            align-items: center;
+        }
+        #pop div {
+            width: 150px;
+            text-align: center;
+            margin: 5px;
+            padding: 5px;
+            justify-content: space-evenly;
+            background-color: lightblue;
+            border: 2px solid black;
+        }
+        #pop div img{
+            width: 100%;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="products"></div>
+        <div id="pop"></div>
+    </div>
+    <script>
+        function genTable(products){
+            products.forEach(function (product){
+                let Card=document.createElement("div")
+                let Img=document.createElement("img")
+                Img.src=product.thumbnail
+                Card.appendChild(Img)
+                let title = document.createElement("h4")
+                title.innerText = product.title
+                Card.appendChild(title)
+                document.getElementById("products").appendChild(Card)
+                Card.onclick = function(event){
+                    event.show()
+                }
+            })
+        }
+        function show(){
+            let Card = document.createElement("div")
+            let title = document.createElement("h1")
+            title.innerText = product.title
+            Card.appendChild(title)
+            let descript = document.createElement("description")
+            descript.innerText = product.description
+            Card.appendChild(descript)
+            let Img = document.createElement("img")
+            Img.src=product.thumbnail
+            Card.appendChild(Img)
+        }
+        function getProducts(){
+            axios.get("https://dummyjson.com/products")
+            .then(function(res){genTable(res.data.products);})
+        }
+        getProducts()
+    </script>
+</body>
+</html>
