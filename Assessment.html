@@ -21,7 +21,7 @@
             width: 100%;
         }
           #products div {
-            width: 150px;
+            width: 200px;
             text-align: center;
             margin: 5px;
             padding: 5px;
@@ -32,23 +32,34 @@
         }
 
         #products div img {
-            width: 100%;
+            width: 50%;
         }
         #pop{
             border: 1px solid black;
             align-items: center;
+            width: auto;
         }
         #pop div {
-            width: 150px;
+            width: 600px;
             text-align: center;
-            margin: 5px;
-            padding: 5px;
-            justify-content: space-evenly;
             background-color: lightblue;
             border: 2px solid black;
+            position: absolute;
+            top: 20%;
+            left: 30%;
+            box-shadow: 3px 3px 3px 3px gray;
+            align-items: center;
         }
         #pop div img{
-            width: 100%;
+            width: 200PX;
+        }
+        #pop div h4{
+            text-align: center;
+        }
+        #pop div button{
+            position: absolute;
+            top: 0px;
+            right: 0px;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
@@ -65,26 +76,51 @@
                 let Img=document.createElement("img")
                 Img.src=product.thumbnail
                 Card.appendChild(Img)
-                let title = document.createElement("h4")
+                let title = document.createElement("h2")
                 title.innerText = product.title
                 Card.appendChild(title)
+                let price=document.createElement("h4")
+                price.innerText = "price:"+product.price
+                Card.appendChild(price)
+                let discountPercentage=document.createElement("h5")
+                discountPercentage.innerText = "discount:"+product.discountPercentage
+                Card.appendChild(discountPercentage)
                 document.getElementById("products").appendChild(Card)
-                Card.onclick = function(event){
-                    event.show()
+                Card.onclick=function(){
+                    show(product)
                 }
             })
         }
-        function show(){
+        function show(product){
+            document.getElementById("pop").innerText=""
             let Card = document.createElement("div")
-            let title = document.createElement("h1")
-            title.innerText = product.title
-            Card.appendChild(title)
+             let btn = document.createElement("button")
+            btn.innerText = "X"
+            btn.onclick = function (){
+                show();
+            }
+            Card.appendChild(btn)
+            let Title = document.createElement("h1")
+            Title.innerText = product.title
+            Card.appendChild(Title)
             let descript = document.createElement("description")
             descript.innerText = product.description
             Card.appendChild(descript)
             let Img = document.createElement("img")
             Img.src=product.thumbnail
             Card.appendChild(Img)
+            let price=document.createElement("strike")
+            price.innerText = "price:"+product.price
+            Card.appendChild(price)
+            let total = document.createElement("h5")
+            total.innerText = product.price-((product.price/product.discountPercentage)/100)
+            Card.appendChild(total)
+            var o = product.reviews
+            o.forEach(function(res){
+                var a = document.createElement("p");
+                a.innerText = res.comment.ratings
+            })
+            document.getElementById("pop").appendChild(Card)
         }
         function getProducts(){
             axios.get("https://dummyjson.com/products")
